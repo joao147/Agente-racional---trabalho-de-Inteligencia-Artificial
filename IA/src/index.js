@@ -1,5 +1,5 @@
-const tabuleiro = require('./Tabuleiro');
-const agente = require('./Agente');
+const tabuleiro = require('./Tabuleiro');//importando objeto do Tabuleiro 'tab' que foi exportado
+const agente = require('./Agente');//importando objeto do Agente 'age' que foi exportado
 
 tabuleiro.tab.gerarTabuleiro(8);
 tabuleiro.tab.printTabuleiro();
@@ -18,10 +18,21 @@ while(!agente.age.getOuro()){
     console.log(agente.age.fechados);
     console.log(agente.age.abertos);
 }
+if(agente.age.getOuro()){
+    encerrarJogo(0);
+}
 
 function sleep(miliseconds) {
     var currentTime = new Date().getTime();
 
     while (currentTime + miliseconds >= new Date().getTime()) {
+    }
+ }
+
+ function encerrarJogo(resultado){
+    if(resultado==0){
+        console.log('O agente encontrou o ouro');
+    }else{
+        console.log('Essa caverna é impossivel de ser concluida');
     }
  }

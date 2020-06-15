@@ -247,17 +247,23 @@ class Agente{
 }
 
     move(tab){
-        let melhorMovimento = this.abertos[0];
+        let melhorMovimento;
         let i;
         let j;
         let verify=0;
 
-        if(this.abertos.length > 1){
-            for(let count = 1; count < this.abertos.length; count++){
-                if(melhorMovimento.custo > this.abertos[count].custo){
-                    melhorMovimento = this.abertos[count];
+        if(this.abertos.length > 0){
+            melhorMovimento = this.abertos[0];
+
+            if(this.abertos.length > 1){
+                for(let count = 1; count < this.abertos.length; count++){
+                    if(melhorMovimento.custo > this.abertos[count].custo){
+                        melhorMovimento = this.abertos[count];
+                    }
                 }
             }
+        }else{
+            encerrarJogo(1);
         }
 
         for(i = 0; i < 8; i++){
