@@ -67,8 +67,6 @@ class Agente{
     }
 
     atualizaLista(x,y, tab){
-        console.log('hello');
-
         let posicaoAtual = (x*8) + y; //conversão matriz para lista
 
         let obj = new Object;
@@ -77,176 +75,177 @@ class Agente{
             
         this.fechados.push(obj);    //adiciona o nó atual a lista de fechados
         this.abertos = this.abertos.filter(a => a.posicao!==posicaoAtual);   //remove o nó atual da lista de abertos
-
-        if (x===0){ //tratamento da linha 0
-            if (y===0){ //tratamento da coluna 0
-                if(tab[posicaoAtual + 1]===0 || tab[posicaoAtual]===3){
-                    obj = new Object;
-                    obj.posicao = posicaoAtual + 1;
-                    obj.custo = calcDistancia(x,y+1,tab);
-                    const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
-                    if(fechado.length===0)
-                    this.abertos.push(obj); //adiciona o nó a direita na lista de abertos
+        if( this.fechados[this.fechados.length-1].custo > 0){
+            if (x===0){ //tratamento da linha 0
+                if (y===0){ //tratamento da coluna 0
+                    if(tab[posicaoAtual + 1]===0 || tab[posicaoAtual]===3){
+                        obj = new Object;
+                        obj.posicao = posicaoAtual + 1;
+                        obj.custo = calcDistancia(x,y+1,tab);
+                        const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
+                        if(fechado.length===0)
+                        this.abertos.push(obj); //adiciona o nó a direita na lista de abertos
+                    }
                 }
-            }
-            else if (y===7){ //tratamento da ultima coluna
-                if(tab[posicaoAtual - 1]===0 || tab[posicaoAtual - 1]===3){
-                    obj = new Object;
-                    obj.posicao = posicaoAtual-1;
-                    obj.custo = calcDistancia(x,y-1,tab)
+                else if (y===7){ //tratamento da ultima coluna
+                    if(tab[posicaoAtual - 1]===0 || tab[posicaoAtual - 1]===3){
+                        obj = new Object;
+                        obj.posicao = posicaoAtual-1;
+                        obj.custo = calcDistancia(x,y-1,tab)
 
-                    const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
-                    if(fechado.length===0)
-                    this.abertos.push(obj); //adiciona o nó a esquerda na lista de abertos
-                }
-            }
-
-            else { //tratamento das demais colunas
-                if(tab[posicaoAtual + 1]===0 || tab[posicaoAtual + 1]===3){
-                    obj = new Object;
-                    obj.posicao = posicaoAtual + 1;
-                    obj.custo = calcDistancia(x,y+1,tab)
-                    const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
-                    if(fechado.length===0)
-                    this.abertos.push(obj); //adiciona o nó a direita na lista de abertos
-                }
-                if(tab[posicaoAtual - 1]===0 || tab[posicaoAtual - 1]===3){
-                    obj = new Object;
-                    obj.posicao = posicaoAtual - 1;
-                    obj.custo = calcDistancia(x,y-1,tab)
-                    const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
-                    if(fechado.length===0)
-                    this.abertos.push(obj);//adiciona o nó a esquerda na lista de abertos
+                        const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
+                        if(fechado.length===0)
+                        this.abertos.push(obj); //adiciona o nó a esquerda na lista de abertos
+                    }
                 }
 
-            }
-            if(tab[posicaoAtual + 8]===0 || tab[posicaoAtual + 8]===3){ //verificacao padrao para a linha 0
-                obj = new Object;
-                obj.posicao = posicaoAtual + 8;
-                obj.custo = calcDistancia(x+1,y,tab)
-                const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
-                if(fechado.length===0)
-                this.abertos.push(obj);//adiciona o nó abaixo na lista de abertos
-            }
-        }
+                else { //tratamento das demais colunas
+                    if(tab[posicaoAtual + 1]===0 || tab[posicaoAtual + 1]===3){
+                        obj = new Object;
+                        obj.posicao = posicaoAtual + 1;
+                        obj.custo = calcDistancia(x,y+1,tab)
+                        const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
+                        if(fechado.length===0)
+                        this.abertos.push(obj); //adiciona o nó a direita na lista de abertos
+                    }
+                    if(tab[posicaoAtual - 1]===0 || tab[posicaoAtual - 1]===3){
+                        obj = new Object;
+                        obj.posicao = posicaoAtual - 1;
+                        obj.custo = calcDistancia(x,y-1,tab)
+                        const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
+                        if(fechado.length===0)
+                        this.abertos.push(obj);//adiciona o nó a esquerda na lista de abertos
+                    }
 
-        else if (x===7){ //tratamento da linha 7
-            if (y===0){ //tratamento da coluna 0
-                if(tab[posicaoAtual + 1]===0 || tab[posicaoAtual + 1]===3){
+                }
+                if(tab[posicaoAtual + 8]===0 || tab[posicaoAtual + 8]===3){ //verificacao padrao para a linha 0
                     obj = new Object;
-                    obj.posicao = posicaoAtual + 1;
-                    obj.custo = calcDistancia(x,y+1,tab)
+                    obj.posicao = posicaoAtual + 8;
+                    obj.custo = calcDistancia(x+1,y,tab)
                     const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
                     if(fechado.length===0)
-                    this.abertos.push(obj);//adiciona o nó a direita na lista de abertos
+                    this.abertos.push(obj);//adiciona o nó abaixo na lista de abertos
                 }
             }
 
-            else if (y===7){ //tratamento da ultima coluna
-                if(tab[posicaoAtual - 1]===0 || tab[posicaoAtual - 1]===3){
+            else if (x===7){ //tratamento da linha 7
+                if (y===0){ //tratamento da coluna 0
+                    if(tab[posicaoAtual + 1]===0 || tab[posicaoAtual + 1]===3){
+                        obj = new Object;
+                        obj.posicao = posicaoAtual + 1;
+                        obj.custo = calcDistancia(x,y+1,tab)
+                        const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
+                        if(fechado.length===0)
+                        this.abertos.push(obj);//adiciona o nó a direita na lista de abertos
+                    }
+                }
+
+                else if (y===7){ //tratamento da ultima coluna
+                    if(tab[posicaoAtual - 1]===0 || tab[posicaoAtual - 1]===3){
+                        obj = new Object;
+                        obj.posicao = posicaoAtual - 1;
+                        obj.custo = calcDistancia(x,y-1,tab)
+                        const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
+                        if(fechado.length===0)
+                        this.abertos.push(obj);//adiciona o nó a esquerda na lista de abertos
+                    }
+                }
+
+                else { //tratamento das demais colunas
+                    if(tab[posicaoAtual + 1]===0 || tab[posicaoAtual - 1]===3){
+                        obj = new Object;
+                        obj.posicao = posicaoAtual + 1;
+                        obj.custo = calcDistancia(x,y+1,tab)
+                        const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
+                        if(fechado.length===0)
+                        this.abertos.push(obj);//adiciona o nó a direita na lista de abertos
+                    }
+                    if(tab[posicaoAtual - 1]===0 || tab[posicaoAtual - 1]===3){
+                        obj = new Object;
+                        obj.posicao = posicaoAtual - 1;
+                        obj.custo = calcDistancia(x,y-1,tab)
+                        const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
+                        if(fechado.length===0)
+                        this.abertos.push(obj);//adiciona o nó a esquerda na lista de abertos
+                    }
+
+                }
+                if(tab[posicaoAtual - 8]===0 || tab[posicaoAtual - 8]===3){ //verificacao padrao para a linha 7
                     obj = new Object;
-                    obj.posicao = posicaoAtual - 1;
-                    obj.custo = calcDistancia(x,y-1,tab)
+                    obj.posicao = posicaoAtual - 8;
+                    obj.custo = calcDistancia(x-1,y,tab)
                     const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
                     if(fechado.length===0)
-                    this.abertos.push(obj);//adiciona o nó a esquerda na lista de abertos
+                    this.abertos.push(obj); //adiciona o nó acima na lista de abertos
+                }
+                
+            }
+
+            else { //tratamento das demais linhas: 1,2,3,4,5 e 6   
+                if (y===0){ //tratamento da coluna 0
+                    if(tab[posicaoAtual + 1]===0 || tab[posicaoAtual + 1]===3){
+                        obj = new Object;
+                        obj.posicao = posicaoAtual + 1;
+                        obj.custo = calcDistancia(x,y+1,tab)
+                        const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
+                        if(fechado.length===0)
+                        this.abertos.push(obj); //adiciona o nó a direita na lista de abertos
+                    }
+                }
+
+                else if (y===7){ //tratamento da ultima coluna
+                    if(tab[posicaoAtual - 1]===0 || tab[posicaoAtual - 1]===3){
+                        obj = new Object;
+                        obj.posicao = posicaoAtual - 1;
+                        obj.custo = calcDistancia(x,y-1,tab)
+                        const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
+                        if(fechado.length===0)
+                        this.abertos.push(obj); //adiciona o nó a esquerda na lista de abertos
+                    }
+                }
+
+                else { //tratamento das demais colunas
+                    if(tab[posicaoAtual + 1]===0 || tab[posicaoAtual + 1]===3){
+                        obj = new Object;
+                        obj.posicao = posicaoAtual + 1;
+                        obj.custo = calcDistancia(x,y+1,tab)
+                        const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
+                        if(fechado.length===0)
+                        this.abertos.push(obj); //adiciona o nó a direita na lista de abertos
+                    }
+                    if(tab[posicaoAtual - 1]===0 || tab[posicaoAtual - 1]===3){
+                        obj = new Object;
+                        obj.posicao = posicaoAtual - 1;
+                        obj.custo = calcDistancia(x,y-1,tab)
+                        const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
+                        if(fechado.length===0)
+                        this.abertos.push(obj); //adiciona o nó a esquerda na lista de abertos
+                    }
+
+                }
+                if(tab[posicaoAtual + 8]===0 || tab[posicaoAtual + 8]===3){ //verificacao padrao para as linhas intermediarias
+                    obj = new Object;
+                    obj.posicao = posicaoAtual + 8;
+                    obj.custo = calcDistancia(x+1,y,tab)
+                    const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
+                    if(fechado.length===0)
+                    this.abertos.push(obj);//adiciona o nó abaixo na lista de abertos
+                }
+                if(tab[posicaoAtual - 8]===0 || tab[posicaoAtual - 8]===3){ //verificacao padrao para as linhas intermediarias
+                    obj = new Object;
+                    obj.posicao = posicaoAtual - 8;
+                    obj.custo = calcDistancia(x-1,y,tab)
+                    const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
+                    if(fechado.length===0)
+                    this.abertos.push(obj); //adiciona o nó acima na lista de abertos
                 }
             }
 
-            else { //tratamento das demais colunas
-                if(tab[posicaoAtual + 1]===0 || tab[posicaoAtual - 1]===3){
-                    obj = new Object;
-                    obj.posicao = posicaoAtual + 1;
-                    obj.custo = calcDistancia(x,y+1,tab)
-                    const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
-                    if(fechado.length===0)
-                    this.abertos.push(obj);//adiciona o nó a direita na lista de abertos
-                }
-                if(tab[posicaoAtual - 1]===0 || tab[posicaoAtual - 1]===3){
-                    obj = new Object;
-                    obj.posicao = posicaoAtual - 1;
-                    obj.custo = calcDistancia(x,y-1,tab)
-                    const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
-                    if(fechado.length===0)
-                    this.abertos.push(obj);//adiciona o nó a esquerda na lista de abertos
-                }
-
+            if(this.abertos.length === 0){
+                console.log('Impossivel chegar ao ouro! Nenhum caminho aberto');
             }
-            if(tab[posicaoAtual - 8]===0 || tab[posicaoAtual - 8]===3){ //verificacao padrao para a linha 7
-                obj = new Object;
-                obj.posicao = posicaoAtual - 8;
-                obj.custo = calcDistancia(x-1,y,tab)
-                const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
-                if(fechado.length===0)
-                this.abertos.push(obj); //adiciona o nó acima na lista de abertos
-            }
-            
-        }
-
-        else { //tratamento das demais linhas: 1,2,3,4,5 e 6   
-            if (y===0){ //tratamento da coluna 0
-                if(tab[posicaoAtual + 1]===0 || tab[posicaoAtual + 1]===3){
-                    obj = new Object;
-                    obj.posicao = posicaoAtual + 1;
-                    obj.custo = calcDistancia(x,y+1,tab)
-                    const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
-                    if(fechado.length===0)
-                    this.abertos.push(obj); //adiciona o nó a direita na lista de abertos
-                }
-            }
-
-            else if (y===7){ //tratamento da ultima coluna
-                if(tab[posicaoAtual - 1]===0 || tab[posicaoAtual - 1]===3){
-                    obj = new Object;
-                    obj.posicao = posicaoAtual - 1;
-                    obj.custo = calcDistancia(x,y-1,tab)
-                    const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
-                    if(fechado.length===0)
-                    this.abertos.push(obj); //adiciona o nó a esquerda na lista de abertos
-                }
-            }
-
-            else { //tratamento das demais colunas
-                if(tab[posicaoAtual + 1]===0 || tab[posicaoAtual + 1]===3){
-                    obj = new Object;
-                    obj.posicao = posicaoAtual + 1;
-                    obj.custo = calcDistancia(x,y+1,tab)
-                    const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
-                    if(fechado.length===0)
-                    this.abertos.push(obj); //adiciona o nó a direita na lista de abertos
-                }
-                if(tab[posicaoAtual - 1]===0 || tab[posicaoAtual - 1]===3){
-                    obj = new Object;
-                    obj.posicao = posicaoAtual - 1;
-                    obj.custo = calcDistancia(x,y-1,tab)
-                    const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
-                    if(fechado.length===0)
-                    this.abertos.push(obj); //adiciona o nó a esquerda na lista de abertos
-                }
-
-            }
-            if(tab[posicaoAtual + 8]===0 || tab[posicaoAtual + 8]===3){ //verificacao padrao para as linhas intermediarias
-                obj = new Object;
-                obj.posicao = posicaoAtual + 8;
-                obj.custo = calcDistancia(x+1,y,tab)
-                const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
-                if(fechado.length===0)
-                this.abertos.push(obj);//adiciona o nó abaixo na lista de abertos
-            }
-            if(tab[posicaoAtual - 8]===0 || tab[posicaoAtual - 8]===3){ //verificacao padrao para as linhas intermediarias
-                obj = new Object;
-                obj.posicao = posicaoAtual - 8;
-                obj.custo = calcDistancia(x-1,y,tab)
-                const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
-                if(fechado.length===0)
-                this.abertos.push(obj); //adiciona o nó acima na lista de abertos
-            }
-        }
-
-        if(this.abertos.length === 0){
-            console.log('Impossivel chegar ao ouro! Nenhum caminho aberto');
-        }
     }
+}
 
     move(tab){
         let melhorMovimento = this.abertos[0];
@@ -254,8 +253,6 @@ class Agente{
         let j;
         let verify=0;
 
-        console.log(this.abertos.length);
-        
         if(this.abertos.length > 1){
             for(let count = 1; count < this.abertos.length; count++){
                 if(melhorMovimento.custo > this.abertos[count].custo){

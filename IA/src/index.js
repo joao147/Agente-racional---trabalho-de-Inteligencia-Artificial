@@ -13,8 +13,15 @@ while(!agente.age.getOuro()){
     tabuleiro.tab.tabuleiro[(agente.age.getX()*8)+agente.age.getY()] = 'x';
     agente.age.move(tabuleiro.tab.tabuleiro);
     tabuleiro.tab.tabuleiro[(agente.age.getX()*8)+agente.age.getY()] = 4;
-    console.log('to aqui');
+    sleep(2000);
     tabuleiro.tab.printTabuleiro();
     console.log(agente.age.fechados);
     console.log(agente.age.abertos);
 }
+
+function sleep(miliseconds) {
+    var currentTime = new Date().getTime();
+ 
+    while (currentTime + miliseconds >= new Date().getTime()) {
+    }
+ }
