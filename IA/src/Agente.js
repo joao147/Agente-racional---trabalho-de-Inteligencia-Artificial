@@ -1,5 +1,4 @@
 function calcDistancia(x,y,tab){
-
     return  Math.abs(x-age.ouroPosicao.x)
             +Math.abs(y-age.ouroPosicao.y);
 }
@@ -78,7 +77,7 @@ class Agente{
         if( this.fechados[this.fechados.length-1].custo > 0){
             if (x===0){ //tratamento da linha 0
                 if (y===0){ //tratamento da coluna 0
-                    if(tab[posicaoAtual + 1]===0 || tab[posicaoAtual]===3){
+                    if(tab[posicaoAtual + 1]===0 || tab[posicaoAtual + 1]===3){
                         obj = new Object;
                         obj.posicao = posicaoAtual + 1;
                         obj.custo = calcDistancia(x,y+1,tab);
