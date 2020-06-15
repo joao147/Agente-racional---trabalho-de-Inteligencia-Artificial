@@ -30,19 +30,19 @@ class Tabuleiro{
     constructor(){}
 
     gerarTabuleiro(qtd){
-        this.tabuleiro.push(AGENTE);// 4 representa o agente
-        this.tabuleiro.push(OURO);// 3 representa o ouro
-        this.tabuleiro.push(WUMPUS);// 2 representa o wumpus
+        this.tabuleiro.push(this.AGENTE);// 4 representa o agente
+        this.tabuleiro.push(this.OURO);// 3 representa o ouro
+        this.tabuleiro.push(this.WUMPUS);// 2 representa o wumpus
         
         let i = 2;//Inicia em 2 pois já há 3 itens no tabuleiro(agente, ouro e wumpus)
 
         for(let j = 0; j < qtd; j++){//adiciona o numero de poços que o usuário inserir
-            this.tabuleiro.push(POCO);// 1 representa os poços
+            this.tabuleiro.push(this.POCO);// 1 representa os poços
             i++;
         }
 
         while(i<64){//Inseri NADA no resto do tabuleiro
-            this.tabuleiro.push(NADA);// 0 representa que não a nada que impeça o agente
+            this.tabuleiro.push(this.NADA);// 0 representa que não a nada que impeça o agente
             i++;
         }
 
