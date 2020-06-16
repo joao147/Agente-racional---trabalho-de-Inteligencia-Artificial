@@ -1,7 +1,24 @@
-function calcDistancia(x,y,tab){
-    return  Math.abs(x-age.ouroPosicao.x)
-            +Math.abs(y-age.ouroPosicao.y);
+/*function calcDistancia(x,y){//Função Heurisca Não Adimissível
+    return  2*(Math.abs(x-age.ouroPosicao.x)
+            +Math.abs(y-age.ouroPosicao.y));
+}*/
+
+function calcDistancia(x,y){//Função Heurisca Adimissível
+    return  Math.sqrt((Math.pow(x-age.ouroPosicao.x,2)
+            +Math.pow(y-age.ouroPosicao.y,2)));
 }
+
+function encerrarJogo(resultado){
+    if(resultado==0){
+        console.log(`
+        *-------------------------*
+         O agente encontrou o ouro
+        *-------------------------*
+        `);
+    }else{
+        console.log('Essa caverna é impossivel de ser concluida');
+    }
+ }
 
 class Agente{
     x;
@@ -10,6 +27,7 @@ class Agente{
     abertos = new Array();
     fechados = new Array();
     ouroPosicao;
+    qtdPassos = 0;
 
     constructor(){
         this.x = 0;
@@ -41,6 +59,14 @@ class Agente{
         return this.ouro;
     }
 
+    getQtdPassos(){
+        return this.qtdPassos;
+    }
+
+    getDistaciaInicialOuro(){
+        return calcDistancia(0,0);
+    }
+
     setOuroPosicao(posicao){
         let j;
         let i;
@@ -65,14 +91,15 @@ class Agente{
         this.ouroPosicao = {x: ouroX, y: ouroY};
     }
 
-    atualizaLista(x,y, tab){
+    atualizaLista(x,y,tab){
         let posicaoAtual = (x*8) + y; //conversão matriz para lista
 
         let obj = new Object;
         obj.posicao = posicaoAtual;
-        obj.custo = calcDistancia(x,y,tab);
+        obj.custo = calcDistancia(x,y);
             
         this.fechados.push(obj);    //adiciona o nó atual a lista de fechados
+        this.qtdPassos++;
         this.abertos = this.abertos.filter(a => a.posicao!==posicaoAtual);   //remove o nó atual da lista de abertos
         if( this.fechados[this.fechados.length-1].custo > 0){
             if (x===0){ //tratamento da linha 0
@@ -80,7 +107,7 @@ class Agente{
                     if(tab[posicaoAtual + 1]===0 || tab[posicaoAtual + 1]===3){
                         obj = new Object;
                         obj.posicao = posicaoAtual + 1;
-                        obj.custo = calcDistancia(x,y+1,tab);
+                        obj.custo = calcDistancia(x,y+1);
                         const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
                         if(fechado.length===0)
                         this.abertos.push(obj); //adiciona o nó a direita na lista de abertos
@@ -90,7 +117,7 @@ class Agente{
                     if(tab[posicaoAtual - 1]===0 || tab[posicaoAtual - 1]===3){
                         obj = new Object;
                         obj.posicao = posicaoAtual-1;
-                        obj.custo = calcDistancia(x,y-1,tab)
+                        obj.custo = calcDistancia(x,y-1)
 
                         const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
                         if(fechado.length===0)
@@ -102,7 +129,7 @@ class Agente{
                     if(tab[posicaoAtual + 1]===0 || tab[posicaoAtual + 1]===3){
                         obj = new Object;
                         obj.posicao = posicaoAtual + 1;
-                        obj.custo = calcDistancia(x,y+1,tab)
+                        obj.custo = calcDistancia(x,y+1)
                         const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
                         if(fechado.length===0)
                         this.abertos.push(obj); //adiciona o nó a direita na lista de abertos
@@ -110,7 +137,7 @@ class Agente{
                     if(tab[posicaoAtual - 1]===0 || tab[posicaoAtual - 1]===3){
                         obj = new Object;
                         obj.posicao = posicaoAtual - 1;
-                        obj.custo = calcDistancia(x,y-1,tab)
+                        obj.custo = calcDistancia(x,y-1)
                         const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
                         if(fechado.length===0)
                         this.abertos.push(obj);//adiciona o nó a esquerda na lista de abertos
@@ -120,7 +147,7 @@ class Agente{
                 if(tab[posicaoAtual + 8]===0 || tab[posicaoAtual + 8]===3){ //verificacao padrao para a linha 0
                     obj = new Object;
                     obj.posicao = posicaoAtual + 8;
-                    obj.custo = calcDistancia(x+1,y,tab)
+                    obj.custo = calcDistancia(x+1,y)
                     const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
                     if(fechado.length===0)
                     this.abertos.push(obj);//adiciona o nó abaixo na lista de abertos
@@ -132,7 +159,7 @@ class Agente{
                     if(tab[posicaoAtual + 1]===0 || tab[posicaoAtual + 1]===3){
                         obj = new Object;
                         obj.posicao = posicaoAtual + 1;
-                        obj.custo = calcDistancia(x,y+1,tab)
+                        obj.custo = calcDistancia(x,y+1)
                         const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
                         if(fechado.length===0)
                         this.abertos.push(obj);//adiciona o nó a direita na lista de abertos
@@ -143,7 +170,7 @@ class Agente{
                     if(tab[posicaoAtual - 1]===0 || tab[posicaoAtual - 1]===3){
                         obj = new Object;
                         obj.posicao = posicaoAtual - 1;
-                        obj.custo = calcDistancia(x,y-1,tab)
+                        obj.custo = calcDistancia(x,y-1)
                         const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
                         if(fechado.length===0)
                         this.abertos.push(obj);//adiciona o nó a esquerda na lista de abertos
@@ -154,7 +181,7 @@ class Agente{
                     if(tab[posicaoAtual + 1]===0 || tab[posicaoAtual - 1]===3){
                         obj = new Object;
                         obj.posicao = posicaoAtual + 1;
-                        obj.custo = calcDistancia(x,y+1,tab)
+                        obj.custo = calcDistancia(x,y+1)
                         const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
                         if(fechado.length===0)
                         this.abertos.push(obj);//adiciona o nó a direita na lista de abertos
@@ -162,7 +189,7 @@ class Agente{
                     if(tab[posicaoAtual - 1]===0 || tab[posicaoAtual - 1]===3){
                         obj = new Object;
                         obj.posicao = posicaoAtual - 1;
-                        obj.custo = calcDistancia(x,y-1,tab)
+                        obj.custo = calcDistancia(x,y-1)
                         const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
                         if(fechado.length===0)
                         this.abertos.push(obj);//adiciona o nó a esquerda na lista de abertos
@@ -172,7 +199,7 @@ class Agente{
                 if(tab[posicaoAtual - 8]===0 || tab[posicaoAtual - 8]===3){ //verificacao padrao para a linha 7
                     obj = new Object;
                     obj.posicao = posicaoAtual - 8;
-                    obj.custo = calcDistancia(x-1,y,tab)
+                    obj.custo = calcDistancia(x-1,y)
                     const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
                     if(fechado.length===0)
                     this.abertos.push(obj); //adiciona o nó acima na lista de abertos
@@ -185,7 +212,7 @@ class Agente{
                     if(tab[posicaoAtual + 1]===0 || tab[posicaoAtual + 1]===3){
                         obj = new Object;
                         obj.posicao = posicaoAtual + 1;
-                        obj.custo = calcDistancia(x,y+1,tab)
+                        obj.custo = calcDistancia(x,y+1)
                         const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
                         if(fechado.length===0)
                         this.abertos.push(obj); //adiciona o nó a direita na lista de abertos
@@ -196,7 +223,7 @@ class Agente{
                     if(tab[posicaoAtual - 1]===0 || tab[posicaoAtual - 1]===3){
                         obj = new Object;
                         obj.posicao = posicaoAtual - 1;
-                        obj.custo = calcDistancia(x,y-1,tab)
+                        obj.custo = calcDistancia(x,y-1)
                         const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
                         if(fechado.length===0)
                         this.abertos.push(obj); //adiciona o nó a esquerda na lista de abertos
@@ -207,7 +234,7 @@ class Agente{
                     if(tab[posicaoAtual + 1]===0 || tab[posicaoAtual + 1]===3){
                         obj = new Object;
                         obj.posicao = posicaoAtual + 1;
-                        obj.custo = calcDistancia(x,y+1,tab)
+                        obj.custo = calcDistancia(x,y+1)
                         const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
                         if(fechado.length===0)
                         this.abertos.push(obj); //adiciona o nó a direita na lista de abertos
@@ -215,7 +242,7 @@ class Agente{
                     if(tab[posicaoAtual - 1]===0 || tab[posicaoAtual - 1]===3){
                         obj = new Object;
                         obj.posicao = posicaoAtual - 1;
-                        obj.custo = calcDistancia(x,y-1,tab)
+                        obj.custo = calcDistancia(x,y-1)
                         const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
                         if(fechado.length===0)
                         this.abertos.push(obj); //adiciona o nó a esquerda na lista de abertos
@@ -225,7 +252,7 @@ class Agente{
                 if(tab[posicaoAtual + 8]===0 || tab[posicaoAtual + 8]===3){ //verificacao padrao para as linhas intermediarias
                     obj = new Object;
                     obj.posicao = posicaoAtual + 8;
-                    obj.custo = calcDistancia(x+1,y,tab)
+                    obj.custo = calcDistancia(x+1,y)
                     const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
                     if(fechado.length===0)
                     this.abertos.push(obj);//adiciona o nó abaixo na lista de abertos
@@ -233,7 +260,7 @@ class Agente{
                 if(tab[posicaoAtual - 8]===0 || tab[posicaoAtual - 8]===3){ //verificacao padrao para as linhas intermediarias
                     obj = new Object;
                     obj.posicao = posicaoAtual - 8;
-                    obj.custo = calcDistancia(x-1,y,tab)
+                    obj.custo = calcDistancia(x-1,y)
                     const fechado = this.fechados.filter(f => f.posicao === obj.posicao);
                     if(fechado.length===0)
                     this.abertos.push(obj); //adiciona o nó acima na lista de abertos
@@ -264,6 +291,7 @@ class Agente{
             }
         }else{
             encerrarJogo(1);
+            return;
         }
 
         for(i = 0; i < 8; i++){
@@ -291,6 +319,7 @@ class Agente{
 
         if(this.verificarOuro(this.x, this.y,tab)){
             this.setOuro();
+            encerrarJogo(0);
         }
     }
 
