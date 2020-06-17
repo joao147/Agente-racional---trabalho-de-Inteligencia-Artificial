@@ -29,8 +29,8 @@ tabuleiro.tab.tabuleiro[(agente.age.getX()*8)+agente.age.getY()] = 'x';//Inseri 
     console.log(agente.age.abertos);
 }
 
-console.log(agente.age.getQtdPassos());
-console.log(agente.age.getDistaciaInicialOuro());
+/*console.log(agente.age.getQtdPassos());
+console.log(agente.age.getDistaciaInicialOuro());*/
 
 if(agente.age.getQtdPassos() < agente.age.getDistaciaInicialOuro()){//Testa se a função utilizada é adimissível ou não
     console.log('Não adimissível');

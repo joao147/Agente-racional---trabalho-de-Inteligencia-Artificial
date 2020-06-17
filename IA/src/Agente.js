@@ -1,14 +1,14 @@
-/*function calcDistancia(x,y){//Função Heurisca Não Adimissível
+function calcDistancia(x,y){//Função Heurisca Não Adimissível
     return  2*(Math.abs(x-age.ouroPosicao.x)
             +Math.abs(y-age.ouroPosicao.y));
-}*/
-
-function calcDistancia(x,y){//Função Heurisca Adimissível
-    return  Math.sqrt((Math.pow(x-age.ouroPosicao.x,2)
-            +Math.pow(y-age.ouroPosicao.y,2)));
 }
 
-function encerrarJogo(resultado){
+/*function calcDistancia(x,y){//Função Heurisca Adimissível
+    return  Math.sqrt((Math.pow(x-age.ouroPosicao.x,2)
+            +Math.pow(y-age.ouroPosicao.y,2)));
+}*/
+
+function encerrarJogo(resultado){//função para encerrar
     if(resultado==0){
         console.log(`
         *-------------------------*
@@ -21,9 +21,9 @@ function encerrarJogo(resultado){
  }
 
 class Agente{
-    x;
-    y;
-    ouro;
+    x;//posição x do agente na matriz
+    y;//posição y do agente na matriz
+    ouro;//guarda se o agente está com o ouro
     abertos = new Array();
     fechados = new Array();
     ouroPosicao;
